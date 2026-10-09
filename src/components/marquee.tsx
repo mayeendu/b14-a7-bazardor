@@ -28,8 +28,6 @@ const Marquee = async () => {
 
   const data: Product[] = await res.json();
 
-  console.log(data);
-
   return (
     <div className="w-full overflow-hidden bg-white text-black mt-1 mb-1 border-b-1 border-gray-200">
       <MarqueeText direction="right" duration={30} pauseOnHover={true}>
