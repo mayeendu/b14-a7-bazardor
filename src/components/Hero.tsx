@@ -20,13 +20,13 @@ export default function Hero() {
 
   return (
     <section className="w-full px-4 py-4 bg-[#e4ebe4] md:px-8">
-      <div className="mx-auto max-w-7xl rounded-3xl bg-[#f5f8f5] px-6 py-6 md:px-12 md:py-14 lg:px-16">
+      <div className="mx-auto max-w-7xl rounded-3xl bg-[#f5f8f5] px-6 py-1 md:px-6 md:py-2 lg:px-6">
         <div className="grid grid-cols-1 items-center gap-8 md:grid-cols-12 lg:gap-12">
           {/* Left Content */}
           <div className="md:col-span-7 lg:col-span-8">
             {/* Today's Date Badge */}
             <div className="mb-4 inline-block">
-              <span className="inline-flex items-center rounded-full bg-[#e7f0e8] px-4 py-1 font-medium text-[#187c2c]">
+              <span className="inline-flex items-center rounded-full bg-[#e7f0e8] px-4 py-2 font-semibold text-[#05893E]">
                 {today}
               </span>
             </div>

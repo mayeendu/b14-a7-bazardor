@@ -33,7 +33,9 @@ const Header = async () => {
         <div className="flex items-center gap-4">
           <button className="btn btn-ghost">সাইন ইন</button>
 
-          <button className="btn bg-[#4a8b51] text-white">সাইন আপ</button>
+          <button className="btn bg-[#4a8b51] text-white rounded-[10]">
+            সাইন আপ
+          </button>
         </div>
       </div>
 
