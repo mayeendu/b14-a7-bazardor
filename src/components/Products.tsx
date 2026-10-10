@@ -19,7 +19,7 @@ type Product = {
   };
 };
 
-const API_URL = "https://api.api-store.workers.dev/api/bazardor/products";
+const API_URL = "https://openapi.programming-hero.com/api/bazardor/products";
 
 export default async function Products() {
   const res = await fetch(API_URL, {

@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 import { useEffect, useState } from "react";
+import { toast } from "react-hot-toast";
 
 export default function Hero() {
   const [today, setToday] = useState("");
@@ -43,14 +44,16 @@ export default function Hero() {
             </p>
 
             {/* CTA Button */}
-            <div className="mt-8">
-              <a
-                href="#products"
-                className="inline-flex items-center justify-center rounded-md bg-[#42884f] px-6 py-3 text-base font-semibold text-white shadow-md shadow-green-900/10 transition-all duration-200 hover:bg-[#367241]"
-              >
-                সব পণ্য দেখুন
-              </a>
-            </div>
+            <button onClick={() => toast.success("স্বাগতম, সব পন্যের সমারোহে")}>
+              <div className="mt-8">
+                <a
+                  href="#products"
+                  className="inline-flex items-center justify-center rounded-md bg-[#42884f] px-6 py-3 text-base font-semibold text-white shadow-md shadow-green-900/10 transition-all duration-200 hover:bg-[#367241]"
+                >
+                  সব পণ্য দেখুন
+                </a>
+              </div>
+            </button>
           </div>
 
           {/* Right Image */}
