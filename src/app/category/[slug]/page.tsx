@@ -72,8 +72,7 @@ export default async function CategoryPage({
           </h1>
 
           <p className="mt-2 text-gray-500">
-            এই বিভাগের {categoryProducts.length}টি পণ্যের
-            বর্তমান দাম দেখুন।
+            এই বিভাগের {categoryProducts.length}টি পণ্যের আজকের দাম ও পরিবর্তন
           </p>
         </div>
 

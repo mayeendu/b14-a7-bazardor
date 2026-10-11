@@ -56,14 +56,19 @@ export default function CategoryProductList({ products }: Props) {
         <div>
             {/* Sorting dropdown */}
             <div className="mb-8 flex flex-wrap items-center justify-between gap-4 rounded-xl border border-gray-200 bg-gray-50 p-4">
+                <div>
 
+                    <p className="mt-1 text-sm text-gray-500">
+                        মোট {sortedProducts.length}টি পণ্য দেখানো হচ্ছে।
+                    </p>
+                </div>
 
-                <div className="w-full sm:w-64">
+                <div className="flex items-center gap-2 w-full sm:w-64">
                     <label
                         htmlFor="sortBy"
                         className="mb-2 block text-sm font-medium text-gray-700"
                     >
-                        দাম অনুযায়ী সাজান
+                        সাজান
                     </label>
 
                     <select
