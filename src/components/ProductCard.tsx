@@ -59,7 +59,7 @@ export default function ProductCard({ product }: ProductCardProps) {
       aria-label={`${product.nameBn} এর বিস্তারিত দাম দেখুন`}
       className="block h-full rounded-3xl focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#4a8b51]"
     >
-      <article className="flex h-full flex-col justify-between rounded-3xl border border-gray-100 bg-[#fbf9f9] p-5 shadow-xs transition duration-200 hover:-translate-y-1 hover:border-[#DCE8D8] hover:shadow-md">
+      <article className="flex h-full flex-col justify-between rounded-3xl border border-gray-100  bg-gray-50 p-5 shadow-xs transition duration-200 hover:-translate-y-1 hover:border-[#DCE8D8] hover:shadow-md">
         {/* Top Header Section: Icon + Title/Unit */}
         <div className="flex items-center gap-3">
           {/* Product Image / Icon Box */}

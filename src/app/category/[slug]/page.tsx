@@ -59,7 +59,7 @@ export default async function CategoryPage({ params }: CategoryPageProps) {
     <main className="min-h-screen bg-white">
       <section className="mx-auto max-w-7xl px-6 py-12 lg:px-8">
         {/* Category heading */}
-        <div className="mb-8 flex h-full flex-col justify-between rounded-3xl border border-gray-100 bg-[#fbf9f9] p-5 shadow-xs transition duration-200">
+        <div className="mb-8 flex h-full flex-col justify-between rounded-3xl border border-gray-100  bg-gray-50 p-5 shadow-xs transition duration-200">
           <p className="text-sm font-medium text-green-600">
             বাজার দর / পণ্যের বিভাগ
           </p>

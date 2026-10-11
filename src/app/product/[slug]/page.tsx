@@ -177,7 +177,7 @@ export default async function ProductPage({ params }: ProductPageProps) {
             </div>
 
             {/* Today's Price Badge */}
-            <div className="w-full md:w-auto bg-[#F7F8F6] border border-gray-100 rounded-2xl p-4 text-center md:text-right min-w-[160px]">
+            <div className="w-full md:w-auto bg-[#F7F8F6] border border-gray-100 rounded-2xl p-4 text-center md:text-right min-w-40">
               <p className="text-xs font-medium text-gray-500">আজকের দাম</p>
               <p className="text-2xl sm:text-3xl font-black text-gray-900 mt-0.5">
                 {formatPrice(product.today)}
@@ -240,7 +240,7 @@ export default async function ProductPage({ params }: ProductPageProps) {
             </h2>
 
             <div className="mt-5 overflow-x-auto rounded-xl border border-gray-100">
-              <table className="w-full min-w-[560px] text-left text-sm">
+              <table className="w-full min-w-140 text-left text-sm">
                 <thead className="bg-[#F2F5EF] text-gray-600">
                   <tr>
                     <th className="px-5 py-4 font-semibold">বাজার</th>

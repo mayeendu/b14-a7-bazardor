@@ -2,7 +2,7 @@ import Link from "next/link";
 
 const SignInPage = () => {
   return (
-    <div className="min-h-screen flex flex-col items-center justify-center bg-[#f2f5f2] py-10 px-4">
+    <div className="min-h-screen flex flex-col items-center bg-[#f2f5f2] py-10 px-4">
       {/* Header & Subtitle */}
       <div className="text-center mb-6">
         <h1 className="text-3xl font-bold tracking-wide text-gray-800">

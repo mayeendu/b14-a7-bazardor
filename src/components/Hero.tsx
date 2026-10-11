@@ -25,7 +25,7 @@ export default function Hero() {
   const [today] = useState(getFormattedDate);
 
   return (
-    <section className="w-full px-4 py-4 bg-[#e4ebe4] md:px-8">
+    <section className="w-full px-4 py-4  bg-gray-50 md:px-8">
       <div className="mx-auto max-w-7xl rounded-3xl bg-[#f5f8f5] px-6 py-1 md:px-6 md:py-2 lg:px-6">
         <div className="grid grid-cols-1 items-center gap-8 md:grid-cols-12 lg:gap-12">
           {/* Left Content */}
