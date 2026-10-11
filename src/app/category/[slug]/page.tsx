@@ -1,4 +1,3 @@
-
 import { notFound } from "next/navigation";
 import CategoryProductList from "@/components/CategoryProductList";
 
@@ -30,7 +29,7 @@ async function getProducts(): Promise<Product[]> {
     "https://openapi.programming-hero.com/api/bazardor/products",
     {
       next: { revalidate: 300 },
-    }
+    },
   );
 
   if (!response.ok) {
@@ -40,14 +39,12 @@ async function getProducts(): Promise<Product[]> {
   return response.json();
 }
 
-export default async function CategoryPage({
-  params,
-}: CategoryPageProps) {
+export default async function CategoryPage({ params }: CategoryPageProps) {
   const { slug } = await params;
   const products = await getProducts();
 
   const categoryProducts = products.filter(
-    (product) => product.category === slug
+    (product) => product.category === slug,
   );
 
   // Unknown category? Display the custom 404 page.
@@ -62,7 +59,7 @@ export default async function CategoryPage({
     <main className="min-h-screen bg-white">
       <section className="mx-auto max-w-7xl px-6 py-12 lg:px-8">
         {/* Category heading */}
-        <div className="mb-8">
+        <div className="mb-8 flex h-full flex-col justify-between rounded-3xl border border-gray-100 bg-[#fbf9f9] p-5 shadow-xs transition duration-200">
           <p className="text-sm font-medium text-green-600">
             বাজার দর / পণ্যের বিভাগ
           </p>

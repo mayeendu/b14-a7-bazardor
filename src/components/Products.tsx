@@ -43,7 +43,7 @@ export default async function Products() {
     .slice(0, 6);
 
   // All products: show six initially
-  const allProducts = data.slice(0, 30);
+  const allProducts = data.slice(0, 33);
 
   return (
     <main className="w-full px-4 py-4 bg-[#e4ebe4] md:px-8">

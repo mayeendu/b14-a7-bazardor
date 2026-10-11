@@ -1,13 +1,12 @@
 "use client";
 
 import Image from "next/image";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { toast } from "react-hot-toast";
 
-export default function Hero() {
-  const [today, setToday] = useState("");
-
-  useEffect(() => {
+// Helper function to format the date
+const getFormattedDate = () => {
+  try {
     const date = new Intl.DateTimeFormat("bn-BD", {
       weekday: "long",
       day: "numeric",
@@ -15,9 +14,15 @@ export default function Hero() {
       year: "numeric",
       timeZone: "Asia/Dhaka",
     });
+    return date.format(new Date());
+  } catch {
+    return "";
+  }
+};
 
-    setToday(date.format(new Date()));
-  }, []);
+export default function Hero() {
+  // Use lazy state initialization to compute it once safely on the client
+  const [today] = useState(getFormattedDate);
 
   return (
     <section className="w-full px-4 py-4 bg-[#e4ebe4] md:px-8">
@@ -28,7 +33,7 @@ export default function Hero() {
             {/* Today's Date Badge */}
             <div className="mb-4 inline-block">
               <span className="inline-flex items-center rounded-full bg-[#e7f0e8] px-4 py-2 font-semibold text-[#05893E]">
-                {today}
+                {today || "লোড হচ্ছে..."}
               </span>
             </div>
 
@@ -43,17 +48,16 @@ export default function Hero() {
               বিস্তারিত, গড়, সর্বনিম্ন-সর্বাধিক এবং দামের পরিবর্তন এক জায়গায়।
             </p>
 
-            {/* CTA Button */}
-            <button onClick={() => toast.success("স্বাগতম, সব পন্যের সমারোহে")}>
-              <div className="mt-8">
-                <a
-                  href="#products"
-                  className="inline-flex items-center justify-center rounded-md bg-[#42884f] px-6 py-3 text-base font-semibold text-white shadow-md shadow-green-900/10 transition-all duration-200 hover:bg-[#367241]"
-                >
-                  সব পণ্য দেখুন
-                </a>
-              </div>
-            </button>
+            {/* CTA Button / Link */}
+            <div className="mt-8">
+              <a
+                href="#products"
+                onClick={() => toast.success("স্বাগতম, সব পন্যের সমারোহে")}
+                className="inline-flex items-center justify-center rounded-md bg-[#42884f] px-6 py-3 text-base font-semibold text-white shadow-md shadow-green-900/10 transition-all duration-200 hover:bg-[#367241]"
+              >
+                সব পণ্য দেখুন
+              </a>
+            </div>
           </div>
 
           {/* Right Image */}
