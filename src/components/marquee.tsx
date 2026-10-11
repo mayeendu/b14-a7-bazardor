@@ -6,7 +6,7 @@ type Product = {
   nameBn: string;
   today: number;
   yesterday: number;
-  categoryIcon: ImageBitmap;
+  categoryIcon: string;
   unit: string;
   change: {
     dir: "up" | "down";
@@ -54,7 +54,7 @@ const Marquee = async () => {
                 {product.change.dir === "up" ? "▲" : "▼"} {product.change.pct}%
               </span>
 
-              <div className="w-[1px] bg-gray-200 self-stretch" />
+              <div className="w-px bg-gray-200 self-stretch" />
             </div>
           ))}
         </div>
