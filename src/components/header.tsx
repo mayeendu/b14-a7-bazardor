@@ -34,11 +34,11 @@ const Header = async () => {
         </Link>
 
         <div className="flex items-center gap-4">
-          <Link href="/SignIn">
+          <Link href="/sign-in">
             <button className="btn btn-ghost">সাইন ইন</button>
           </Link>
 
-          <Link href="/SignUp">
+          <Link href="/sign-up">
             <button className="btn bg-[#4a8b51] text-white rounded-[10]">
               সাইন আপ
             </button>
