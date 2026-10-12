@@ -8,7 +8,19 @@ const Header = async () => {
   const date = new Date().toLocaleDateString("bn-BD", {
     dateStyle: "full",
   });
+  const authLinks = (
+    <>
+      <Link href="/sign-in">
+        <button className="btn btn-ghost">সাইন ইন</button>
+      </Link>
 
+      <Link href="/sign-up">
+        <button className="btn bg-[#4a8b51] text-white rounded-[10]">
+          সাইন আপ
+        </button>
+      </Link>
+    </>
+  );
   return (
     <header className="w-full bg-[#f8f9fa] border-b border-gray-200">
       <div className="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
@@ -33,17 +45,7 @@ const Header = async () => {
           </div>
         </Link>
 
-        <div className="flex items-center gap-4">
-          <Link href="/sign-in">
-            <button className="btn btn-ghost">সাইন ইন</button>
-          </Link>
-
-          <Link href="/sign-up">
-            <button className="btn bg-[#4a8b51] text-white rounded-[10]">
-              সাইন আপ
-            </button>
-          </Link>
-        </div>
+        <div className="flex items-center gap-4">{authLinks}</div>
       </div>
 
       <NavLinks />
