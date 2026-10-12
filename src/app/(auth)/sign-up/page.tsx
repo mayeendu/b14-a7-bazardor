@@ -11,14 +11,27 @@ import {
   Label,
   TextField,
 } from "@heroui/react";
+import { signUp } from "@/lib/auth-client";
 
 const SignUpPage = () => {
-  const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const formData = new FormData(e.currentTarget);
 
-    const data = Object.fromEntries(formData.entries());
-    console.log(data);
+    const data = Object.fromEntries(formData.entries()) as {
+      name: string;
+      email: string;
+      password: string;
+    };
+    console.log("Data from Submit", data);
+
+    const { data: resData, error } = await signUp.email({
+      name: data.name,
+      email: data.email,
+      password: data.password,
+    });
+
+    console.log(resData, error);
   };
 
   return (
