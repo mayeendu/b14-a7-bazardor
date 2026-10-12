@@ -20,6 +20,7 @@ const SignUpPage = () => {
             নাম
           </label>
           <input
+            name="name"
             type="text"
             className="input input-bordered w-full mb-3"
             placeholder="যেমন: মাইন উদ্দিন"
@@ -30,6 +31,7 @@ const SignUpPage = () => {
             ইমেইল
           </label>
           <input
+            name="email"
             type="email"
             className="input input-bordered w-full mb-3"
             placeholder="you@example.com"
@@ -40,6 +42,7 @@ const SignUpPage = () => {
             পাসওয়ার্ড
           </label>
           <input
+            name="password"
             type="password"
             className="input input-bordered w-full mb-3"
             placeholder="কমপক্ষে ৮ অক্ষর"
@@ -50,6 +53,7 @@ const SignUpPage = () => {
             পাসওয়ার্ড নিশ্চিত করুন
           </label>
           <input
+            name="password"
             type="password"
             className="input input-bordered w-full mb-4"
             placeholder="আবার লিখুন"
