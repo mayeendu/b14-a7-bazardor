@@ -12,7 +12,7 @@ const Header = async () => {
   return (
     <header className="w-full bg-[#f8f9fa] border-b border-gray-200">
       <div className="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
-        <Link href={"http://localhost:3000/"}>
+        <Link href={"/"}>
           <div className="flex items-center gap-3">
             <div className="w-12 h-12 bg-[#4a8b51] rounded-2xl flex items-center justify-center shrink-0">
               <Image
@@ -34,8 +34,6 @@ const Header = async () => {
         </Link>
 
         <div className="flex items-center gap-4">
-
-
           <Link href="/SignIn">
             <button className="btn btn-ghost">সাইন ইন</button>
           </Link>
