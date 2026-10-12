@@ -31,7 +31,7 @@ const SignUpPage = () => {
       password: data.password,
     });
 
-    console.log(resData, error);
+    // console.log(resData, error);
   };
 
   return (

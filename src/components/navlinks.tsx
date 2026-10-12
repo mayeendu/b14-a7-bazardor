@@ -8,8 +8,15 @@ interface Category {
 
 const NavLinks = async () => {
   const res = await fetch(
-    "https://openapi.programming-hero.com/api/bazardor/categories",
+    "https://api.api-store.workers.dev/api/bazardor/categories",
+    {
+      next: { revalidate: 3600 },
+    },
   );
+
+  if (!res.ok) {
+    throw new Error("Failed to fetch categories");
+  }
   const data: Category[] = await res.json();
 
   return (

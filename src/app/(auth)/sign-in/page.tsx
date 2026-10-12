@@ -21,7 +21,7 @@ const SignInPage = () => {
       password: string;
     };
 
-    console.log("Data from Sign In", data);
+    // console.log("Data from Sign In", data);
 
     const { data: resdata, error } = await signIn.email({
       email: data.email,
