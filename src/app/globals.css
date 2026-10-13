@@ -1,3 +1,50 @@
 @import "tailwindcss";
 @plugin "daisyui";
 @import "@heroui/styles";
+
+/* Keep sizing predictable across the application */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+/* Prevent unwanted horizontal scrolling on small screens */
+html {
+  min-height: 100%;
+  scroll-behavior: smooth;
+}
+
+body {
+  min-height: 100vh;
+  margin: 0;
+  overflow-x: clip;
+}
+
+/* Make media elements responsive by default */
+img,
+video,
+canvas,
+svg {
+  max-width: 100%;
+}
+
+/* Improve text wrapping for narrow mobile screens */
+h1,
+h2,
+h3,
+p {
+  overflow-wrap: break-word;
+}
+
+/* Respect users who prefer reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}

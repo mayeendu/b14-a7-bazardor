@@ -1,4 +1,6 @@
 import Link from "next/link";
+import { Suspense } from "react";
+import CategoryNavItems from "@/components/CategoryNavItems";
 
 interface Category {
   slug: string;
@@ -17,23 +19,39 @@ const NavLinks = async () => {
   if (!res.ok) {
     throw new Error("Failed to fetch categories");
   }
+
   const data: Category[] = await res.json();
 
   return (
-    <div className="border-t border-gray-200">
-      <div className="flex max-w-7xl mt-3 mb-3 mx-auto gap-5 justify-start ">
-        {data.map((category) => (
-          <Link
-            key={category.slug}
-            href={`/category/${category.slug}`}
-            className="flex items-center-safe gap-2 text-gray-700 hover:text-[#4a8b51] font-medium whitespace-nowrap transition-colors"
-          >
-            {category.icon && <span>{category.icon}</span>}
-            <span>{category.nameBn}</span>
-          </Link>
-        ))}
+    <nav
+      aria-label="প্রধান নেভিগেশন"
+      className="w-full min-w-0 border-t border-gray-200 bg-[#f8f9fa]"
+    >
+      <div
+        className="mx-auto flex w-full max-w-7xl min-w-0 items-center gap-1.5 overflow-x-auto overscroll-x-contain px-3 py-2 sm:gap-2 sm:px-5 sm:py-3 lg:px-6"
+        style={{ scrollbarWidth: "thin" }}
+      >
+        {/* Home link */}
+        <Link
+          href="/"
+          className="flex shrink-0 items-center gap-1.5 whitespace-nowrap rounded-lg px-3 py-2 text-sm font-medium text-gray-700 transition-colors hover:bg-[#4a8b51] hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#4a8b51] focus-visible:ring-offset-2 sm:gap-2 sm:px-4 sm:text-base"
+        >
+          <span aria-hidden="true">🏠</span>
+          <span>হোম</span>
+        </Link>
+
+        {/* Category links */}
+        <Suspense
+          fallback={
+            <div className="shrink-0 whitespace-nowrap px-3 py-2 text-sm text-gray-500 sm:text-base">
+              ক্যাটাগরি লোড হচ্ছে...
+            </div>
+          }
+        >
+          <CategoryNavItems categories={data} />
+        </Suspense>
       </div>
-    </div>
+    </nav>
   );
 };
 

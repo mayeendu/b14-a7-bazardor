@@ -15,9 +15,15 @@ type Product = {
   lastMonth: number;
   unit: string;
   change: {
-    dir: "up" | "down";
+    dir: "up" | "down" | "same";
     pct: number;
   };
+};
+
+type Category = {
+  slug: string;
+  nameBn: string;
+  icon?: string;
 };
 
 type CategoryPageProps = {
@@ -27,9 +33,7 @@ type CategoryPageProps = {
 async function getProducts(): Promise<Product[]> {
   const response = await fetch(
     "https://openapi.programming-hero.com/api/bazardor/products",
-    {
-      next: { revalidate: 300 },
-    },
+    { next: { revalidate: 300 } },
   );
 
   if (!response.ok) {
@@ -39,42 +43,65 @@ async function getProducts(): Promise<Product[]> {
   return response.json();
 }
 
-export default async function CategoryPage({ params }: CategoryPageProps) {
-  const { slug } = await params;
-  const products = await getProducts();
-
-  const categoryProducts = products.filter(
-    (product) => product.category === slug,
+async function getCategories(): Promise<Category[]> {
+  const response = await fetch(
+    "https://api.api-store.workers.dev/api/bazardor/categories",
+    { next: { revalidate: 3600 } },
   );
 
-  // Unknown category? Display the custom 404 page.
+  if (!response.ok) {
+    throw new Error("Failed to fetch categories");
+  }
+
+  return response.json();
+}
+
+export default async function CategoryPage({ params }: CategoryPageProps) {
+  const { slug } = await params;
+
+  const [products, categories] = await Promise.all([
+    getProducts(),
+    getCategories(),
+  ]);
+
+  const category = categories.find((item) => item.slug === slug);
+
+  const categoryProducts = products.filter((product) => {
+    return (
+      product.category === slug ||
+      (category !== undefined && product.categoryNameBn === category.nameBn)
+    );
+  });
+
   if (categoryProducts.length === 0) {
     notFound();
   }
 
-  const categoryName = categoryProducts[0].categoryNameBn;
-  const categoryIcon = categoryProducts[0].categoryIcon;
+  const categoryName = category?.nameBn ?? categoryProducts[0].categoryNameBn;
+
+  const categoryIcon = category?.icon ?? categoryProducts[0].categoryIcon;
 
   return (
-    <main className="min-h-screen bg-white">
-      <section className="mx-auto max-w-7xl px-6 py-12 lg:px-8">
-        {/* Category heading */}
-        <div className="mb-8 flex h-full flex-col justify-between rounded-3xl border border-gray-100  bg-gray-50 p-5 shadow-xs transition duration-200">
-          <p className="text-sm font-medium text-green-600">
+    <main className="min-h-screen w-full min-w-0 bg-white">
+      <section className="mx-auto w-full max-w-7xl min-w-0 px-3 py-6 sm:px-5 sm:py-8 lg:px-8 lg:py-12">
+        <div className="mb-6 rounded-2xl border border-gray-100 bg-gray-50 p-4 shadow-sm sm:mb-8 sm:rounded-3xl sm:p-6 lg:p-8">
+          <p className="text-sm font-medium text-green-700 sm:text-base">
             বাজার দর / পণ্যের বিভাগ
           </p>
 
-          <h1 className="mt-3 text-3xl font-bold text-gray-900">
+          <h1 className="mt-2 wrap-break-words text-2xl font-bold leading-snug text-gray-900 sm:mt-3 sm:text-3xl lg:text-4xl">
             {categoryIcon} {categoryName}
           </h1>
 
-          <p className="mt-2 text-gray-500">
-            এই বিভাগের {categoryProducts.length}টি পণ্যের আজকের দাম ও পরিবর্তন
+          <p className="mt-2 text-sm leading-6 text-gray-600 sm:text-base">
+            এই বিভাগের {categoryProducts.length.toLocaleString("bn-BD")}
+            টি পণ্যের আজকের দাম ও পরিবর্তন
           </p>
         </div>
 
-        {/* Sorting dropdown and product grid */}
-        <CategoryProductList products={categoryProducts} />
+        <div className="min-w-0">
+          <CategoryProductList products={categoryProducts} />
+        </div>
       </section>
     </main>
   );

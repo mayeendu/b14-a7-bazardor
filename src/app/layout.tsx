@@ -10,12 +10,14 @@ import ToastProvider from "@/components/ToastProvider";
 const hindSiliguri = Hind_Siliguri({
   subsets: ["latin", "bengali"],
   weight: ["300", "400", "500", "600", "700"],
+  display: "swap",
 });
 
 export const metadata: Metadata = {
   title: "বাজার দর | প্রয়োজনীয় পণ্যের দাম",
   description:
     "চাল, ডাল, তেল, সবজি, মাছ, মাংস ও নিত্যপ্রয়োজনীয় পণ্যের বাজারদর এক নজরে দেখুন।",
+  applicationName: "বাজার দর",
 };
 
 export default function RootLayout({
@@ -27,14 +29,16 @@ export default function RootLayout({
     <html
       lang="bn"
       data-theme="light"
-      className={`${hindSiliguri.className} h-full antialiased`}
+      className={`${hindSiliguri.className} min-h-full antialiased`}
     >
-      <body className="flex min-h-full flex-col">
+      <body className="flex min-h-screen flex-col overflow-x-clip bg-[#F4F6F4] text-gray-900">
         <ToastProvider />
+
         <Header />
+
         <Marquee />
 
-        <div className="flex-1">{children}</div>
+        <main className="w-full min-w-0 flex-1">{children}</main>
 
         <Footer />
       </body>

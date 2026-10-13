@@ -1,5 +1,6 @@
 "use client";
 
+import { toast } from "react-hot-toast";
 import { useSession, signOut } from "@/lib/auth-client";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -9,15 +10,23 @@ const AuthLinks = () => {
   const router = useRouter();
 
   const handleSignOut = async () => {
-    const { error } = await signOut();
+    try {
+      const { error } = await signOut();
 
-    if (error) {
-      console.error("Sign out failed:", error);
-      return;
+      if (error) {
+        console.error("Sign out failed:", error);
+        toast.error(error.message || "সাইন আউট করা যায়নি!");
+        return;
+      }
+
+      toast.success("সফলভাবে সাইন আউট হয়েছে!");
+
+      router.push("/");
+      router.refresh();
+    } catch (error) {
+      console.error("Unexpected sign out error:", error);
+      toast.error("একটি সমস্যা হয়েছে। আবার চেষ্টা করুন।");
     }
-
-    router.push("/");
-    router.refresh();
   };
 
   if (isPending) {
@@ -31,6 +40,10 @@ const AuthLinks = () => {
           <span className="text-sm font-medium text-gray-700">
             স্বাগতম, {session.user.name || "ব্যবহারকারী"}
           </span>
+
+          <Link href="/profile" className="btn btn-ghost">
+            প্রোফাইল
+          </Link>
 
           <button
             type="button"

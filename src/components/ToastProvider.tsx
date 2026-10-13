@@ -39,8 +39,6 @@ function AuthToastListener() {
         return;
     }
 
-    // Remove the reason parameter after showing the toast.
-    // Preserve other query parameters, such as "next".
     const params = new URLSearchParams(searchParams.toString());
     params.delete("reason");
 

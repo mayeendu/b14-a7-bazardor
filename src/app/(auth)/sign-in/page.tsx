@@ -1,153 +1,183 @@
 "use client";
 
 import { signIn } from "@/lib/auth-client";
-import {
-  Button,
-  FieldError,
-  Form,
-  Input,
-  Label,
-  TextField,
-} from "@heroui/react";
+import { Button, FieldError, Input, Label, TextField } from "@heroui/react";
+import { toast } from "react-hot-toast";
 import Link from "next/link";
-import { FaGithub, FaGoogle } from "react-icons/fa"; // Or use your preferred icon imports
+import { FaGithub, FaGoogle } from "react-icons/fa";
 
 const SignInPage = () => {
+  // Email and password sign-in
   const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+
+    console.log("SIGN-IN SUBMIT HANDLER CALLED");
+
     const formData = new FormData(e.currentTarget);
-    const data = Object.fromEntries(formData.entries()) as {
-      email: string;
-      password: string;
-    };
 
-    const { data: resdata, error } = await signIn.email({
-      email: data.email,
-      password: data.password,
-      rememberMe: true,
-      callbackURL: "/",
-    });
+    const email = String(formData.get("email") ?? "").trim();
 
-    console.log("After Sign In User data is", resdata, error);
+    const password = String(formData.get("password") ?? "");
+
+    console.log("Email detected:", Boolean(email));
+    console.log("Password detected:", Boolean(password));
+
+    // Check empty fields
+    if (!email || !password.trim()) {
+      toast.error("ফর্মের তথ্য ঠিক করে আবার চেষ্টা করুন।");
+      return;
+    }
+
+    // Basic email validation
+    const emailRegex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i;
+
+    if (!emailRegex.test(email)) {
+      toast.error("সঠিক ইমেইল ঠিকানা লিখুন।");
+      return;
+    }
+
+    try {
+      const { data, error } = await signIn.email({
+        email,
+        password,
+        rememberMe: true,
+        callbackURL: "/",
+      });
+
+      if (error) {
+        console.error("Sign-in error:", error);
+        toast.error(error.message || "সাইন ইন করা যায়নি!");
+        return;
+      }
+
+      console.log("Signed-in user:", data);
+
+      toast.success("সফলভাবে সাইন ইন হয়েছে!");
+    } catch (error) {
+      console.error("Unexpected sign-in error:", error);
+
+      toast.error("একটি সমস্যা হয়েছে। আবার চেষ্টা করুন।");
+    }
   };
 
-  // Optional handlers for social logins if supported by your auth-client
-  const handleSocialSignIn = async (provider: "google" | "github") => {
-    await signIn.social({
-      provider,
-      callbackURL: "/",
-    });
+  // Google and GitHub sign-in
+  const handleSocialSignUp = async (provider: "google" | "github") => {
+    try {
+      const { error } = await signIn.social({
+        provider,
+        callbackURL: "/",
+      });
+
+      if (error) {
+        console.error(`${provider} login error:`, error);
+
+        toast.error(error.message || `${provider} দিয়ে সাইন ইন করা যায়নি!`);
+      }
+    } catch (error) {
+      console.error(`${provider} login error:`, error);
+
+      toast.error("একটি সমস্যা হয়েছে। আবার চেষ্টা করুন।");
+    }
   };
 
   return (
-    <div className="min-h-screen bg-[#F4F6F4] flex flex-col items-center p-4 mt-5">
-      {/* Header Title and Subtitle */}
-      <div className="text-center mb-6">
-        <h2 className="text-2xl font-bold text-gray-800 mb-1">সাইন ইন</h2>
+    <div className="mt-5 flex min-h-screen flex-col items-center bg-[#F4F6F4] p-4">
+      {/* Header */}
+      <div className="mb-6 text-center">
+        <h2 className="mb-1 text-2xl font-bold text-gray-800">সাইন ইন</h2>
+
         <p className="text-sm text-gray-600">
           বিস্তারিত দাম, বাজার তুলনা ও প্রোফাইল দেখতে অ্যাকাউন্টে ঢুকুন।
         </p>
       </div>
 
-      {/* Main Card Container */}
-      <div className="w-full max-w-md bg-white border border-gray-100 rounded-2xl shadow-sm p-8">
-        <Form className="flex flex-col gap-4" onSubmit={onSubmit}>
-          <TextField
-            isRequired
-            name="email"
-            type="email"
-            validate={(value) => {
-              if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(value)) {
-                return "Please enter a valid email address";
-              }
-              return null;
-            }}
-          >
+      {/* Sign-in Card */}
+      <div className="w-full max-w-md rounded-2xl border border-gray-100 bg-white p-8 shadow-sm">
+        <form className="flex flex-col gap-4" noValidate onSubmit={onSubmit}>
+          {/* Email */}
+          <TextField name="email" type="email">
             <Label className="text-sm font-medium text-gray-700">ইমেইল</Label>
+
             <Input
+              name="email"
+              type="email"
+              autoComplete="email"
               placeholder="you@example.com"
               className="w-full rounded-xl border border-gray-200 px-3 py-2 text-sm outline-none focus:border-green-600"
             />
-            <FieldError className="text-xs text-red-500 mt-1" />
+
+            <FieldError className="mt-1 text-xs text-red-500" />
           </TextField>
 
-          <TextField
-            isRequired
-            minLength={8}
-            name="password"
-            type="password"
-            validate={(value) => {
-              if (value.length < 8) {
-                return "Password must be at least 8 characters";
-              }
-              if (!/[A-Z]/.test(value)) {
-                return "Password must contain at least one uppercase letter";
-              }
-              if (!/[0-9]/.test(value)) {
-                return "Password must contain at least one number";
-              }
-              return null;
-            }}
-          >
+          {/* Password */}
+          <TextField name="password" type="password">
             <Label className="text-sm font-medium text-gray-700">
               পাসওয়ার্ড
             </Label>
+
             <Input
-              placeholder="কমপক্ষে ৮ অক্ষর"
+              name="password"
+              type="password"
+              autoComplete="current-password"
+              placeholder="আপনার পাসওয়ার্ড লিখুন"
               className="w-full rounded-xl border border-gray-200 px-3 py-2 text-sm outline-none focus:border-green-600"
             />
-            <FieldError className="text-xs text-red-500 mt-1" />
+
+            <FieldError className="mt-1 text-xs text-red-500" />
           </TextField>
 
-          {/* Submit Button */}
+          {/* Submit */}
           <Button
             type="submit"
-            className="w-full mt-2 bg-[#558B43] hover:bg-[#4A7A3A] text-white font-medium py-2.5 rounded-xl transition-colors shadow-sm"
+            className="mt-2 w-full rounded-xl bg-[#558B43] py-2.5 font-medium text-white shadow-sm transition-colors hover:bg-[#4A7A3A]"
           >
             সাইন ইন
           </Button>
-        </Form>
+        </form>
 
         {/* Divider */}
-        <div className="relative flex py-5 items-center">
-          <div className="grow border-t border-gray-200"></div>
-          <span className="shrink mx-4 text-gray-400 text-xs">অথবা</span>
-          <div className="grow border-t border-gray-200"></div>
+        <div className="relative flex items-center py-5">
+          <div className="grow border-t border-gray-200" />
+
+          <span className="mx-4 shrink text-xs text-gray-400">অথবা</span>
+
+          <div className="grow border-t border-gray-200" />
         </div>
 
-        {/* Social Login Buttons */}
+        {/* Social Sign-in */}
         <div className="grid grid-cols-2 gap-3">
           <button
             type="button"
-            onClick={() => handleSocialSignIn("google")}
-            className="flex items-center justify-center gap-2 py-2.5 px-4 border border-gray-200 rounded-xl hover:bg-gray-50 text-xs font-medium text-gray-700 transition-colors"
+            onClick={() => handleSocialSignUp("google")}
+            className="flex items-center justify-center gap-2 rounded-xl border border-gray-200 px-4 py-2.5 text-xs font-medium text-gray-700 transition-colors hover:bg-gray-100"
           >
-            <FaGoogle className="text-red-500 text-sm" />
+            <FaGoogle className="text-sm text-red-500" />
             <span>Google দিয়ে চালিয়ে যান</span>
           </button>
+
           <button
             type="button"
-            onClick={() => handleSocialSignIn("github")}
-            className="flex items-center justify-center gap-2 py-2.5 px-4 border border-gray-200 rounded-xl hover:bg-gray-50 text-xs font-medium text-gray-700 transition-colors"
+            onClick={() => handleSocialSignUp("github")}
+            className="flex items-center justify-center gap-2 rounded-xl border border-gray-200 px-4 py-2.5 text-xs font-medium text-gray-700 transition-colors hover:bg-gray-100"
           >
-            <FaGithub className="text-gray-900 text-sm" />
+            <FaGithub className="text-sm text-gray-900" />
             <span>GitHub দিয়ে চালিয়ে যান</span>
           </button>
         </div>
 
-        {/* Sign Up Link */}
-        <div className="text-center mt-6 text-xs text-gray-600">
+        {/* Sign-up Link */}
+        <div className="mt-6 text-center text-xs text-gray-600">
           অ্যাকাউন্ট নেই?{" "}
           <Link
             href="/sign-up"
-            className="text-green-700 font-medium hover:underline"
+            className="font-medium text-green-700 hover:underline"
           >
             সাইন আপ করুন
           </Link>
         </div>
       </div>
 
-      {/* Back to Home Link */}
+      {/* Back to Home */}
       <div className="mt-6 text-xs text-gray-600">
         <Link href="/" className="hover:underline">
           ← হোম পেজে ফিরে যান
